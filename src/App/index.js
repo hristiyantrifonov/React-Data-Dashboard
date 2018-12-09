@@ -8,6 +8,7 @@ import {AppProvider} from './AppProvider';
 import Aux from '../hoc/Auxiliary/Auxiliary';
 import WelcomeMessage from '../Settings/WelcomeMessage';
 import Settings from '../Settings';
+import Content from '../Shared/Content';
 
 
 class Index extends Component {
@@ -17,7 +18,9 @@ class Index extends Component {
             <AppLayout>
                 <AppProvider>
                     <AppBar/>
-                    <Settings/>
+                    <Content>
+                        <Settings/>
+                    </Content>
                 </AppProvider>
             </AppLayout>
         </Aux>
