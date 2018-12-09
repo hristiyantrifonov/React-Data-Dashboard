@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// Required to be initiated
 export const AppContext = React.createContext();
 
 export class AppProvider extends Component {
@@ -9,8 +10,29 @@ export class AppProvider extends Component {
         super(props);
         this.state = {
             page: 'dashboard',
-            setPage: this.setPage //Passing the function in the state
+            ...this.savedSettings(), // spreading the result overwrites the state
+            setPage: this.setPage, //Passing the function in the state
+            confirmFavorites: this.confirmFavorites
         }
+    }
+
+    confirmFavorites = () => {
+        this.setState({
+           firstVisit: false,
+           page: 'dashboard'
+        });
+        localStorage.setItem('cryptoDash', JSON.stringify({
+            test: 'hello'
+        }));
+    }
+
+    savedSettings = () => {
+        let cryptoDashData = JSON.parse(localStorage.getItem('cryptoDash'));
+        console.log('Hereee', cryptoDashData);
+        if(!cryptoDashData){
+            return {page: 'settings', firstVisit: true}
+        }
+        return {};
     }
 
     setPage = (page) => {
