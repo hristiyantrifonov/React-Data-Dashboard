@@ -1,6 +1,6 @@
 import React from 'react';
 import {AppContext} from "../App/AppProvider";
-import {SelectableTile} from "../Shared/Tile";
+import {SelectableTile, DeletableTile} from "../Shared/Tile";
 import CoinHeaderGrid from "./CoinHeaderGrid";
 import CoinImage from '../Shared/CoinImage';
 
@@ -10,16 +10,16 @@ import CoinImage from '../Shared/CoinImage';
 * */
 
 const coinTile = (props) => {
-
-    const TileClass = SelectableTile;
-
     return <AppContext.Consumer>
         {({coinList}) => {
             let coin = coinList[props.coinKey];
-            const TileClass = SelectableTile;
+            let TileClass = SelectableTile;
+            if(props.topSection){
+                TileClass = DeletableTile;
+            }
             return (
                 <TileClass>
-                    <CoinHeaderGrid name={coin.CoinName} symbol={coin.Symbol}/>
+                    <CoinHeaderGrid topSection={props.topSection} name={coin.CoinName} symbol={coin.Symbol}/>
                     <CoinImage coin={coin}/>
                 </TileClass>);
         }}

@@ -17,15 +17,16 @@ export const CoinGridStyled = styled.div`
     margin-top: 40px;
 `
 
-function getCoinsToDisplay(coinList) {
-    return Object.keys(coinList).slice(0, 100);
+function getCoinsToDisplay(coinList, topSection) {
+    return Object.keys(coinList).slice(0, topSection ? 10 : 100);
 }
 
-const grid = () => {
+const grid = (props) => {
     return <AppContext.Consumer>
         {({coinList}) =>
             <CoinGridStyled>
-                {getCoinsToDisplay(coinList).map(coinKey => <CoinTile coinKey={coinKey}/>)}
+                {getCoinsToDisplay(coinList, props.topSection).map(coinKey =>
+                    <CoinTile coinKey={coinKey} topSection={props.topSection}/>)}
             </CoinGridStyled>}
     </AppContext.Consumer>
 }
