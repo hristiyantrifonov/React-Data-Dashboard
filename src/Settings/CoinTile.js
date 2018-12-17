@@ -1,6 +1,6 @@
 import React from 'react';
 import {AppContext} from "../App/AppProvider";
-import {SelectableTile, DeletableTile} from "../Shared/Tile";
+import {SelectableTile, DeletableTile, DisabledTile} from "../Shared/Tile";
 import CoinHeaderGrid from "./CoinHeaderGrid";
 import CoinImage from '../Shared/CoinImage';
 
@@ -9,16 +9,27 @@ import CoinImage from '../Shared/CoinImage';
 * that is displayed.
 * */
 
+function clickCoinHandler(topSection, coinKey, addCoin, removeCoin){
+    return topSection ? () => {
+        removeCoin(coinKey)
+    } : () => {
+        addCoin(coinKey)
+    }
+}
+
 const coinTile = (props) => {
     return <AppContext.Consumer>
-        {({coinList}) => {
+        {({coinList, addCoin, removeCoin, isInFavorites}) => {
             let coin = coinList[props.coinKey];
             let TileClass = SelectableTile;
             if(props.topSection){
                 TileClass = DeletableTile;
+            }else if(isInFavorites(props.coinKey)){
+                TileClass = DisabledTile;
             }
             return (
-                <TileClass>
+                <TileClass
+                    onClick={clickCoinHandler(props.topSection, props.coinKey, addCoin, removeCoin )}>
                     <CoinHeaderGrid topSection={props.topSection} name={coin.CoinName} symbol={coin.Symbol}/>
                     <CoinImage coin={coin}/>
                 </TileClass>);
